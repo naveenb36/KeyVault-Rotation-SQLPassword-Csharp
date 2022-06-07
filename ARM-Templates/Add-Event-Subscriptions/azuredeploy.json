@@ -3,11 +3,11 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sqlServerName": {
-            "defaultValue": "akvrotation-sql2",
+            "defaultValue": "FNSQLserver",
             "type": "String"
         },
-        "keyVaultName": {
-            "defaultValue": "akvrotation-kv",
+        "NameKeyVault": {
+            "defaultValue": "NaveenKV",
             "type": "String"
         },
         "functionAppName": {
@@ -18,7 +18,7 @@
             }
 		},
 		"secretName": {
-            "defaultValue": "sqlPassword",
+            "defaultValue": "SecretForfctbpgdbadmin",
             "type": "String",
             "metadata": {
                 "description": "The name of the secret where sql password is stored."
@@ -27,7 +27,7 @@
        
     },
     "variables": {
-		"eventSubscriptionName": "[concat(parameters('keyVaultName'),'-',parameters('secretName'),'-',parameters('functionAppName'))]"
+		"eventSubscriptionName": "[concat(parameters('NameKeyVault'),'-',parameters('secretName'),'-',parameters('functionAppName'))]"
 		
     },
     "resources": [
@@ -46,7 +46,7 @@
 		{
             "type": "Microsoft.KeyVault/vaults/providers/eventSubscriptions",
             "apiVersion": "2020-01-01-preview",
-            "name": "[concat(parameters('keyVaultName'),'/Microsoft.EventGrid/',variables('eventSubscriptionName'))]",
+            "name": "[concat(parameters('NameKeyVault'),'/Microsoft.EventGrid/',variables('eventSubscriptionName'))]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 
