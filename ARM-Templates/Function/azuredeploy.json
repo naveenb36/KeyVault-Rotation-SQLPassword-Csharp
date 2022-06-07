@@ -3,14 +3,14 @@
   "contentVersion":"1.0.0.0",
   "parameters":{  
       "sqlServerName": {
-            "defaultValue": "akvrotation-sql",
+            "defaultValue": "FNSQLserver",
             "type": "String",
             "metadata": {
                 "description": "SQL server name with password to rotate."
             }
         },
-        "keyVaultName": {
-            "defaultValue": "akvrotation-kv",
+        "NameKeyVault": {
+            "defaultValue": "NaveenKV",
             "type": "String",
             "metadata": {
                 "description": "Key Vault name where password is stored."
@@ -24,7 +24,7 @@
             }
 		},
 		"secretName": {
-            "defaultValue": "sqlPassword",
+            "defaultValue": "SecretForfctbpgdbadmin",
             "type": "String",
             "metadata": {
                 "description": "The name of the secret where sql password is stored."
@@ -39,8 +39,8 @@
         }
   },
   "variables":{  
-     "functionStorageAccountName": "[concat(uniquestring(resourceGroup().id), 'azfunctions')]",
-	 "eventSubscriptionName": "[concat(parameters('keyVaultName'),'-',parameters('secretName'),'-',parameters('functionAppName'))]"
+     "functionStorageAccountName": "[concat(uniquestring(resourceGroup().id), 'fctbkeyrotation')]",
+	 "eventSubscriptionName": "[concat(parameters('NameKeyVault'),'-',parameters('secretName'),'-',parameters('functionAppName'))]"
   },
   "resources":[  
      {  
@@ -149,7 +149,7 @@
      {
             "type": "Microsoft.KeyVault/vaults/accessPolicies",
             "apiVersion": "2018-02-14",
-            "name": "[concat(parameters('keyVaultName'), '/add')]",
+            "name": "[concat(parameters('NameKeyVault'), '/add')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('functionAppName'))]"
             ],
@@ -174,7 +174,7 @@
     {
             "type": "Microsoft.KeyVault/vaults/providers/eventSubscriptions",
             "apiVersion": "2020-01-01-preview",
-            "name": "[concat(parameters('keyVaultName'),'/Microsoft.EventGrid/',variables('eventSubscriptionName'))]",
+            "name": "[concat(parameters('NameKeyVault'),'/Microsoft.EventGrid/',variables('eventSubscriptionName'))]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[concat('Microsoft.Web/sites/', parameters('functionAppName'),'/sourcecontrols/web')]"
